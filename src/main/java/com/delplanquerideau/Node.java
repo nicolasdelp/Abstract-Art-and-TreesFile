@@ -13,12 +13,18 @@ public class Node {
     private Node leftNode;
     private Node rightNode;
 
+    private double weight;
+
     /**
      * Noeud de l'arbre
-     * @param cuttingDirection
-     * @param color
-     * @param leftNode
-     * @param rightNode
+     * @param cuttingDirection direction de coupe
+     * @param color couleur du noeud
+     * @param startX pixel de départ en X
+     * @param endX pixel de fin en X
+     * @param startY pixel de départ en Y
+     * @param endY pixel de fin en Y
+     * @param leftNode noeud enfant à gauche
+     * @param rightNode noeud enfant à droite
      */
     public Node(CuttingDirection cuttingDirection, Colors color, int startX, int endX, int startY, int endY, Node leftNode, Node rightNode){
         this.cuttingDirection = cuttingDirection;
@@ -33,8 +39,12 @@ public class Node {
 
     /**
      * Feuille de l'arbre
-     * @param cuttingDirection
-     * @param color
+     * @param cuttingDirection direction de coupe
+     * @param color couleur du noeud
+     * @param startX pixel de départ en X
+     * @param endX pixel de fin en X
+     * @param startY pixel de départ en Y
+     * @param endY pixel de fin en Y
      */
     public Node(CuttingDirection cuttingDirection, Colors color, int startX, int endX, int startY, int endY){
         this.cuttingDirection = cuttingDirection;
@@ -73,6 +83,7 @@ public class Node {
         int w = this.endX - this.startX;
         int h = this.endY - this.startY;
         
-        return (w*h)/(w+h)*1.5*1.5;
+        this.weight = (w*h)/((w+h)*1.5*1.5);
+        return this.weight;
     }
 }
