@@ -9,6 +9,23 @@ public class TwoDimensionalTree {
         
     }
 
+    private Node chooseLeaf(){
+        return null;
+    }
+
+    private CuttingDirection chooseDivision(){
+        return null;
+    }
+
+    private Colors chooseColor(){
+        return null;
+    }
+
+    public void toImage(){
+        
+    }
+
+
 
     // public void cut(){
     //     if(this.rightNode == null && this.leftNode == null){
