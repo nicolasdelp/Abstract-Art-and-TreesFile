@@ -12,11 +12,12 @@ public class Node {
     private int endY;
     private Node leftNode;
     private Node rightNode;
+    private boolean isALeaf = false;
 
     private double weight;
 
     /**
-     * Noeud de l'arbre
+     * Constructeur d'un noeud dans un arbre
      * @param cuttingDirection direction de coupe
      * @param color couleur du noeud
      * @param startX pixel de départ en X
@@ -38,7 +39,7 @@ public class Node {
     }
 
     /**
-     * Feuille de l'arbre
+     * Constructeur d'une feuille dans un arbre
      * @param cuttingDirection direction de coupe
      * @param color couleur du noeud
      * @param startX pixel de départ en X
@@ -53,8 +54,7 @@ public class Node {
         this.endX = endX;
         this.startY = startY;
         this.endY = endY;
-        this.leftNode = null;
-        this.rightNode = null;
+        this.isALeaf = true;
     }
 
     public CuttingDirection getCuttingDirection(){
