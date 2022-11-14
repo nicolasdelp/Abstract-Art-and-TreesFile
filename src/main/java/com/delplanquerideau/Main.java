@@ -4,7 +4,7 @@ public class Main {
     /**
      * Liste des différents paramètres que l'utilisateur peut modifier
      */
-    private static int strategy = 0; // La stratégie de génération d’arbre TODO: ENUM
+    private static int strategy = 0; // La stratégie de génération d’arbre
     private static int largeur = 0; // La largeur de l'image
     private static int hauteur = 0; // La hauteur de l'image
     private static int nbFeuilles = 0; // Le nombre de feuilles maximum de l’arbre
@@ -15,9 +15,15 @@ public class Main {
     private static int seed = 0; // La graine aléatoire utilisée pour générer l’arbre
 
     public static void main(String[] args) {
-        // Appel à la fonction de génération aléatoire de tableau
-        // TwoDimensionalTree TDT = new TwoDimensionalTree(int largeur, int hauteur, int nbFeuilles, float proportionCoupe, int minDimensionCoupe, float memeCouleurProb, int largeurLigne);
-
-        System.out.println("Hello world!");
+        if (strategy == 0){
+            GenerateTree GT = new GenerateTree();
+            TwoDimensionalTree TDT = GT.generateRandomTree(largeur, hauteur, nbFeuilles, proportionCoupe, minDimensionCoupe, memeCouleurProb, largeurLigne, seed);
+            TDT.toImage();
+        }else if(strategy == 1){
+            GenerateTree GT = new GenerateTree();
+            TwoDimensionalTree TDT = GT.generateBetterRandomTree();
+            TDT.toImage();
+        }
+        
     }
 }
