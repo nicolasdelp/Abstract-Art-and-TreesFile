@@ -77,7 +77,7 @@ public class Node {
      * Calcul le poids d'une feuille
      * @param w la largeur
      * @param h la hauteur
-     * @return
+     * @return le poids (double)
      */
     public double weight(){
         int w = this.endX - this.startX;
