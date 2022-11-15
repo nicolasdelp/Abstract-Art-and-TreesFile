@@ -36,25 +36,9 @@ public class Node {
         this.endY = endY;
         this.leftNode = leftNode;
         this.rightNode = rightNode;
-    }
-
-    /**
-     * Constructeur d'une feuille dans un arbre
-     * @param cuttingDirection direction de coupe
-     * @param color couleur du noeud
-     * @param startX pixel de départ en X
-     * @param endX pixel de fin en X
-     * @param startY pixel de départ en Y
-     * @param endY pixel de fin en Y
-     */
-    public Node(CuttingDirection cuttingDirection, Colors color, int startX, int endX, int startY, int endY){
-        this.cuttingDirection = cuttingDirection;
-        this.color = color;
-        this.startX = startX;
-        this.endX = endX;
-        this.startY = startY;
-        this.endY = endY;
-        this.isALeaf = true;
+        if(this.leftNode == null && this.rightNode == null){
+            this.isALeaf = true;
+        }
     }
 
     public CuttingDirection getCuttingDirection(){
@@ -71,6 +55,14 @@ public class Node {
 
     public Node getLeftNode(){
         return leftNode;
+    }
+
+    public int getHeight(){
+        return endY-startY;
+    }
+
+    public int getWidth(){
+        return endX-startX;
     }
     
     /**

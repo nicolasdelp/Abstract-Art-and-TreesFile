@@ -4,31 +4,30 @@ package com.delplanquerideau;
  * Class représentant la direction et les cordonnée du milieu de la coupe
  */
 public class CuttingDirection{
-    private Direction direction;
-    private int x;
-    private int y;
+    private Direction direction; // Axe de découpe
+    private int position; // TODO
 
     /**
      * Constructeur d'une coupe
      * @param direction
-     * @param x
-     * @param y
+     * @param position
      */
-    public CuttingDirection(Direction direction, int x, int y){
+    public CuttingDirection(Direction direction, int position){
         this.direction = direction;
-        this.x = x;
-        this.y = y;
+        this.position = position;
     }
 
     public Direction getDirection() {
-        return direction;
+        return this.direction;
     }
 
-    public int getX() {
-        return x;
+    public int getPosition() {
+        return this.position;
     }
-
-    public int getY() {
-        return y;
+    
+    @Override
+    public String toString() {
+        String res = "" + this.position;
+        return res;
     }
 }

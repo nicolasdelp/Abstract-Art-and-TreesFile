@@ -17,8 +17,8 @@ public class GenerateTree {
      * @param seed
      * @return un 2d-arbre
      */
-    public TwoDimensionalTree generateRandomTree(int largeur, int hauteur, int nbFeuilles, float proportionCoupe, int minDimensionCoupe, float memeCouleurProb, int largeurLigne, int seed){
-        return null;
+    public TwoDimensionalTree generateRandomTree(int largeur, int hauteur, int nbFeuilles, double proportionCoupe, int minDimensionCoupe, double memeCouleurProb, int largeurLigne, long seed){
+        return new TwoDimensionalTree(largeur, hauteur, nbFeuilles, proportionCoupe, minDimensionCoupe, memeCouleurProb, largeurLigne, seed);
     }
     
     /**
