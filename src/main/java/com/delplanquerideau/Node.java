@@ -6,7 +6,7 @@ package com.delplanquerideau;
 public class Node {
     private CuttingDirection cuttingDirection;
     private Colors color;
-    private int startX;
+    private int startX; //TODO : classe Zone/Region ? qui calcule le weight?
     private int endX;
     private int startY;
     private int endY;
@@ -75,7 +75,7 @@ public class Node {
         int w = this.endX - this.startX;
         int h = this.endY - this.startY;
         
-        this.weight = (w*h)/((w+h)*1.5*1.5);
+        this.weight = (w*h)/((w+h)*1.5*1.5);    //TODO : ^1.5 et pas *1.5^2
         return this.weight;
     }
 }
