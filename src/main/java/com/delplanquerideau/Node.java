@@ -29,7 +29,7 @@ public class Node {
      * @param leftNode noeud enfant à gauche
      * @param rightNode noeud enfant à droite
      */
-    public Node(CuttingDirection cuttingDirection, Color color, int startX, int endX, int startY, int endY, Node leftNode, Node rightNode){
+    public Node(CuttingDirection cuttingDirection, Color color, int startX, int endX, int startY, int endY){
         this.cuttingDirection = cuttingDirection;
         this.color = color;
         this.startX = startX;
@@ -38,9 +38,7 @@ public class Node {
         this.endY = endY;
         this.leftNode = leftNode;
         this.rightNode = rightNode;
-        if(this.leftNode == null && this.rightNode == null){
-            this.isALeaf = true;
-        }
+        this.isALeaf = true;
     }
 
     public CuttingDirection getCuttingDirection(){
@@ -82,7 +80,21 @@ public class Node {
     public int getWidth(){
         return endX-startX;
     }
-    
+
+    public void setLeftNode(Node leftNode) {
+        this.leftNode = leftNode;
+        this.isALeaf = false;
+    }
+
+    public void setRightNode(Node rightNode) {
+        this.rightNode = rightNode;
+        this.isALeaf = false;
+    }
+
+    public boolean getIsALeaf(){
+        return this.isALeaf;
+    }
+
     /**
      * Calcul le poids d'une feuille
      * @param w la largeur
