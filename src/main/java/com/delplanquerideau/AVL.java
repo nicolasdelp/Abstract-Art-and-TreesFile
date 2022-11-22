@@ -28,13 +28,14 @@ public class AVL {
   }
   
   public Node insert(Node n){
-    if (root == null){
-      
+    if (this.isVoid) { //aka root == null
+      this.root = new Node(n);
     }
     insert_rec(root,n);
   
   public Node insert_rec(Node curr, Node toAdd){
-    if(curr == null)
+    if(curr.isLeaf){
+    }
     if(curr.getWeight() > n.getWeight){
       
       
