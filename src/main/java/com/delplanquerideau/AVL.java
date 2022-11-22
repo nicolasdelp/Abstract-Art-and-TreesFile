@@ -19,16 +19,16 @@ public class AVL {
   
   
   public String preorder(Node n, String s){
-    s = s + n.toString; 
-    if(!n.isLeaf()){
-        s = s + "(" + preorder(n.leftNode) + ")";
-        s = s + "(" preorder(n.rightNode) + ")";
+    s = s + n.toString();
+    if(!n.getIsALeaf()){
+        s = s + "(" + preorder(n.getLeftNode(), s) + ")";
+        s = s + "(" + preorder(n.getRightNode(), s) + ")";
     } 
     return s;
   }
   
   public Node insert(Node n){
-    if (this.isVoid) { //aka root == null
+    if (this.isVoid()) { //aka root == null
       this.root = new Node(n);
     }
     insert_rec(root,n);
