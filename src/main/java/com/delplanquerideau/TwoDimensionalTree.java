@@ -93,4 +93,14 @@ public class TwoDimensionalTree {
             System.out.println(e);
         }
     }
+    
+    
+        public String preorder(Node n, String s){
+        s = s + n.toString; 
+        if(!n.isLeaf()){
+            s = s + "(" + preorder(n.leftNode) + ")";
+            s = s + "(" preorder(n.rightNode) + ")";
+        } 
+        return s;
+    }
 }
