@@ -1,11 +1,13 @@
 package com.delplanquerideau;
 
+import java.awt.*;
+
 /**
  * Class représentant un noeud dans un 2d-arbres
  */
 public class Node {
     private CuttingDirection cuttingDirection;
-    private Colors color;
+    private Color color;
     private int startX; //TODO : classe Zone/Region ? qui calcule le weight?
     private int endX;
     private int startY;
@@ -27,7 +29,7 @@ public class Node {
      * @param leftNode noeud enfant à gauche
      * @param rightNode noeud enfant à droite
      */
-    public Node(CuttingDirection cuttingDirection, Colors color, int startX, int endX, int startY, int endY, Node leftNode, Node rightNode){
+    public Node(CuttingDirection cuttingDirection, Color color, int startX, int endX, int startY, int endY, Node leftNode, Node rightNode){
         this.cuttingDirection = cuttingDirection;
         this.color = color;
         this.startX = startX;
@@ -45,8 +47,24 @@ public class Node {
         return this.cuttingDirection;
     }
 
-    public Colors getColor(){
+    public Color getColor(){
         return this.color;
+    }
+
+    public int getStartX() {
+        return startX;
+    }
+
+    public int getEndX() {
+        return endX;
+    }
+
+    public int getStartY() {
+        return startY;
+    }
+
+    public int getEndY() {
+        return endY;
     }
 
     public Node getRightNode(){

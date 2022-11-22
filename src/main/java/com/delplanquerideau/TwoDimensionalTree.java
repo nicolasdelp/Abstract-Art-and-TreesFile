@@ -1,5 +1,6 @@
 package com.delplanquerideau;
 
+import java.awt.*;
 import java.util.Random;
 
 /**
@@ -21,7 +22,7 @@ public class TwoDimensionalTree {
      * @param largeurLigne
      */
     public TwoDimensionalTree(int largeur, int hauteur, int nbFeuilles, double proportionCoupe, int minDimensionCoupe, double memeCouleurProb, int largeurLigne, long seed){
-        this.racine = new Node(chooseDivision(hauteur, largeur, seed, proportionCoupe), Colors.WHITE, 0,largeur, 0, hauteur, null, null);
+        this.racine = new Node(chooseDivision(hauteur, largeur, seed, proportionCoupe), Color.WHITE, 0,largeur, 0, hauteur, null, null);
         // System.out.println(racine.getHeight());
         // System.out.println(racine.getWidth());
         // System.out.println(racine.getColor());
@@ -80,6 +81,7 @@ public class TwoDimensionalTree {
      */
     public void toImage(){
         Image img = new Image(this.racine.getWidth(), this.racine.getHeight());
+        img.setRectangle(this.racine.getStartX(), this.racine.getEndX(), this.racine.getStartY(), this.racine.getEndY(), this.racine.getColor());
 
         try {
             img.save("tableau.png");
