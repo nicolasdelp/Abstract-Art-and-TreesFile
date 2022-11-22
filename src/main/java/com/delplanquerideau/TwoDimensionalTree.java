@@ -81,7 +81,11 @@ public class TwoDimensionalTree {
      */
     public void toImage(){
         Image img = new Image(this.racine.getWidth(), this.racine.getHeight());
-        img.setRectangle(this.racine.getStartX(), this.racine.getEndX(), this.racine.getStartY(), this.racine.getEndY(), this.racine.getColor());
+
+        while ((racine.getLeftNode() == null) && (racine.getRightNode() == null)){
+            img.setRectangle(this.racine.getStartX(), this.racine.getEndX(), this.racine.getStartY(), this.racine.getEndY(), this.racine.getColor());
+
+        }
 
         try {
             img.save("tableau.png");
