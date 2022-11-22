@@ -20,9 +20,10 @@ public class TwoDimensionalTree {
      * @param largeurLigne
      */
     public TwoDimensionalTree(int largeur, int hauteur, int nbFeuilles, double proportionCoupe, int minDimensionCoupe, double memeCouleurProb, int largeurLigne, long seed){
-        Node racine = new Node(chooseDivision(hauteur, largeur, seed, proportionCoupe), Colors.WHITE, hauteur, nbFeuilles, minDimensionCoupe, largeurLigne, null, null);
-        System.out.println(racine.getHeight());
-        System.out.println(racine.getWidth());
+        Node racine = new Node(chooseDivision(hauteur, largeur, seed, proportionCoupe), Colors.WHITE, 0,largeur, 0, hauteur, null, null);
+        // System.out.println(racine.getHeight());
+        // System.out.println(racine.getWidth());
+        // System.out.println(racine.getColor());
         // while(actualNbFeuilles < nbFeuilles){
 
         // }

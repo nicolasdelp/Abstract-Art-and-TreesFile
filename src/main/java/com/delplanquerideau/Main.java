@@ -5,15 +5,15 @@ public class Main {
     /**
      * Liste des différents paramètres que l'utilisateur peut modifier
      */
-    private static int strategy = 0; // La stratégie de génération d’arbre
-    private static int largeur = 0; // La largeur de l'image
-    private static int hauteur = 0; // La hauteur de l'image
-    private static int nbFeuilles = 0; // Le nombre de feuilles maximum de l’arbre
-    private static double proportionCoupe = 0; // La valeur qui permet de ne pas découper trop proche des bords de la région
-    private static int minDimensionCoupe = 0; // La taille minimum des dimensions d’une région
-    private static int memeCouleurProb = 0; // La probabilité de garder la couleur du parent
-    private static int largeurLigne = 0; // La largeur (en pixels) de la ligne qui sépare les régions
-    private static long seed = 234567890; // La graine aléatoire utilisée pour générer l’arbre
+    private final static int strategy = 0; // La stratégie de génération d’arbre
+    private final static int largeur = 1000; // La largeur de l'image
+    private final static int hauteur = 1000; // La hauteur de l'image
+    private final static int nbFeuilles = 4; // Le nombre de feuilles maximum de l’arbre
+    private final static double proportionCoupe = 0.1; // La valeur qui permet de ne pas découper trop proche des bords de la région
+    private final static int minDimensionCoupe = 50; // La taille minimum des dimensions d’une région
+    private final static double memeCouleurProb = 0.2; // La probabilité de garder la couleur du parent
+    private final static int largeurLigne = 10; // La largeur (en pixels) de la ligne qui sépare les régions
+    private final static long seed = 234567890; // La graine aléatoire utilisée pour générer l’arbre
 
     public static void main(String[] args) {
         if (strategy == 0){

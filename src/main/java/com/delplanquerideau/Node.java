@@ -75,7 +75,7 @@ public class Node {
         int w = this.endX - this.startX;
         int h = this.endY - this.startY;
         
-        this.weight = (w*h)/((w+h)*1.5*1.5);    //TODO : ^1.5 et pas *1.5^2
+        this.weight = (w*h)/(Math.pow((w+h), 1.5));
         return this.weight;
     }
 }
