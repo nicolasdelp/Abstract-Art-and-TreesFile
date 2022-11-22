@@ -19,7 +19,7 @@ public class Main {
         if (strategy == 0){
             GenerateTree GT = new GenerateTree();
             TwoDimensionalTree TDT = GT.generateRandomTree(largeur, hauteur, nbFeuilles, proportionCoupe, minDimensionCoupe, memeCouleurProb, largeurLigne, seed);
-            // TDT.toImage();
+            TDT.toImage();
         }else if(strategy == 1){
             GenerateTree GT = new GenerateTree();
             TwoDimensionalTree TDT = GT.generateBetterRandomTree();

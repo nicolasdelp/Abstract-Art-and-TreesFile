@@ -7,6 +7,7 @@ import java.util.Random;
  */
 public class TwoDimensionalTree {
 
+    private Node racine;
     private int actualNbFeuilles = 0;
 
     /**
@@ -20,7 +21,7 @@ public class TwoDimensionalTree {
      * @param largeurLigne
      */
     public TwoDimensionalTree(int largeur, int hauteur, int nbFeuilles, double proportionCoupe, int minDimensionCoupe, double memeCouleurProb, int largeurLigne, long seed){
-        Node racine = new Node(chooseDivision(hauteur, largeur, seed, proportionCoupe), Colors.WHITE, 0,largeur, 0, hauteur, null, null);
+        this.racine = new Node(chooseDivision(hauteur, largeur, seed, proportionCoupe), Colors.WHITE, 0,largeur, 0, hauteur, null, null);
         // System.out.println(racine.getHeight());
         // System.out.println(racine.getWidth());
         // System.out.println(racine.getColor());
@@ -78,6 +79,12 @@ public class TwoDimensionalTree {
      * Génère le tableau au format PNG à partir d'un arbre
      */
     public void toImage(){
-        
+        Image img = new Image(this.racine.getWidth(), this.racine.getHeight());
+
+        try {
+            img.save("tableau.png");
+        } catch (Exception e){
+            System.out.println(e);
+        }
     }
 }
