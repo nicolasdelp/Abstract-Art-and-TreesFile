@@ -28,44 +28,42 @@ public class LinkedList {
 
         do {
             if(item.getNode().getID() == itemID){
-                System.out.println(item.getNode().getID());
-                if(previous == null){ //Si c'est le premier élément
+                if(next == null && previous == null) { //Si c'est le seul élément
+                    this.first = null;
+                    this.last = null;
+                }
+
+                if(next != null && previous == null){ //Si c'est le premier élément
                     this.first = next;
                 }
 
-                if(next == null) {
-                    if(previous == null){ //Si c'est le seul élément
-                        this.first = null;
-                        this.last = null;
-                    }else{ //Si c'est le dernier élément
-                        previous.setNext(null);
-                        this.last = previous;
-                    }
+                if(next == null && previous != null) { //Si c'est le dernier élément
+                    previous.setNext(null);
+                    this.last = previous;
                 }
+
+                if(next != null && previous != null) { //Si c'est un élément au milieu
+                    previous.setNext(next);
+                }
+
                 return item.getNode();
             }
-            if(item.getNext() == null){
-                break;
-            }else{
-                item = next;
-                previous = item;
-                next = next.getNext();
-            }
-        } while(item.getNode().getID() != itemID);
+
+            previous = item;
+            item = next;
+            next = next.getNext();
+        } while(next != null);
         return null;
     }
 
-    // public Node getNodeByID(int ID){
-    //     LinkedListItem item = this.first;
-
-    //     do {
-    //         if(item.getNode().getID() == ID){
-    //             return item.getNode();
-    //         }else{
-    //             item = item.getNext();
-    //         }
-    //     } while(item.getNext() != null);
-
-    //     return null;
-    // }
+    @Override
+    public String toString() {
+        LinkedListItem item = this.first;
+        String res = "";
+        while (item != null){
+            res = res + " " + item.getNode().getID();
+            item = item.getNext();
+        }
+        return res;
+    }
 }

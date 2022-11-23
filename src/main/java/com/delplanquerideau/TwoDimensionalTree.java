@@ -33,9 +33,10 @@ public class TwoDimensionalTree {
 
         while(this.actualNbFeuilles < nbFeuilles){
             Node leaf = chooseLeaf(minDimensionCoupe); //On cherche la feuille a diviser si elle existe sinon = null
-            System.out.println(leaf.getID());
+            //System.out.println(leaf.getID());
 
             if(leaf != null) { //Si on a trouvé une feuille respecatant les conditions
+                System.out.println(this.leafs);
                 this.leafs.remove(leaf.getID()); //On retire le noeud des feuilles
 
                 CuttingDirection cut = chooseDivision(leaf.getHeight(), leaf.getWidth(), proportionCoupe); //On calcul une coupe pour les nouvelles feuilles
