@@ -1,42 +1,45 @@
-package com.delplanquerideau;
+// package com.delplanquerideau;
 
-public class AVL {
-  Node root;
+// public class AVL {
+//   Node root;
   
-  
-  
-  public AVL(){
-  }
-  
-  public AVL(Node n){
-    Node root = new Node(n);  //todo : create node constructor from node
-  }
-  
-  
-  public boolean isVoid(){
-    return (this.root = null);
-  }
-  
-  
-  public String preorder(Node n, String s){
-    s = s + n.toString();
-    if(!n.getIsALeaf()){
-        s = s + "(" + preorder(n.getLeftNode(), s) + ")";
-        s = s + "(" + preorder(n.getRightNode(), s) + ")";
-    } 
-    return s;
-  }
-  
-  public Node insert(Node n){
-    if (this.isVoid()) { //aka root == null
-      this.root = new Node(n);
-    }
-    insert_rec(root,n);
-  
-  public Node insert_rec(Node curr, Node toAdd){
-    if(curr.isLeaf){
-    }
-    if(curr.getWeight() > n.getWeight){
+//   public AVL() {
+//   }
+
+//   public AVL(Node n) {
+//     Node root = new Node(n);  //todo : create node constructor from node
+//   }
+
+
+//   public boolean isVoid() {
+//     return (this.root = null);
+//   }
+
+
+//   public String preorder(Node n, String s) {
+//     s = s + n.toString();
+//     if (!n.getIsALeaf()) {
+//       s = s + "(" + preorder(n.getLeftNode(), s) + ")";
+//       s = s + "(" + preorder(n.getRightNode(), s) + ")";
+//     }
+//     return s;
+//   }
+
+//   public Node insert(Node n) {
+//     if (this.isVoid()) { //aka root == null
+//       this.root = new Node(n);
+//     }
+//     insert_rec(root, n);
+//   }
+
+//   public Node insert_rec(Node curr, Node toAdd) {
+//     if (curr.isLeaf) {
+//     }
+//     if (curr.getWeight() > n.getWeight) {
+
+//     }
+//   }
+// }
       
       
     

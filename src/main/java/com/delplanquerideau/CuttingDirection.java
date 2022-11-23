@@ -1,11 +1,11 @@
 package com.delplanquerideau;
 
 /**
- * Class représentant la direction et les cordonnée du milieu de la coupe
+ * Class représentant la direction et la position de la coupe
  */
 public class CuttingDirection{
-    private Direction direction; // Axe de découpe
-    private int position; // TODO
+    private Direction direction; //Axe de coupe
+    private int position; //Position de coupe
 
     /**
      * Constructeur d'une coupe
@@ -23,11 +23,5 @@ public class CuttingDirection{
 
     public int getPosition() {
         return this.position;
-    }
-    
-    @Override
-    public String toString() {
-        String res = "" + this.position;
-        return res;
     }
 }

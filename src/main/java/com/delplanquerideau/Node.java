@@ -5,10 +5,16 @@ import java.awt.*;
 /**
  * Class représentant un noeud dans un 2d-arbres
  */
+
+
 public class Node {
+
+    private static int ID = 1;
+
+    private int nodeID;
     private CuttingDirection cuttingDirection;
     private Color color;
-    private int startX; //TODO : classe Zone/Region ? qui calcule le weight?
+    private int startX;
     private int endX;
     private int startY;
     private int endY;
@@ -30,15 +36,18 @@ public class Node {
      * @param rightNode noeud enfant à droite
      */
     public Node(CuttingDirection cuttingDirection, Color color, int startX, int endX, int startY, int endY){
+        this.nodeID = ID++;
         this.cuttingDirection = cuttingDirection;
         this.color = color;
         this.startX = startX;
         this.endX = endX;
         this.startY = startY;
         this.endY = endY;
-        this.leftNode = leftNode;
-        this.rightNode = rightNode;
         this.isALeaf = true;
+    }
+
+    public int getID() {
+        return this.nodeID;
     }
 
     public CuttingDirection getCuttingDirection(){
@@ -50,35 +59,35 @@ public class Node {
     }
 
     public int getStartX() {
-        return startX;
+        return this.startX;
     }
 
     public int getEndX() {
-        return endX;
+        return this.endX;
     }
 
     public int getStartY() {
-        return startY;
+        return this.startY;
     }
 
     public int getEndY() {
-        return endY;
+        return this.endY;
     }
 
     public Node getRightNode(){
-        return rightNode;
+        return this.rightNode;
     }
 
     public Node getLeftNode(){
-        return leftNode;
+        return this.leftNode;
     }
 
     public int getHeight(){
-        return endY-startY;
+        return this.endY-this.startY;
     }
 
     public int getWidth(){
-        return endX-startX;
+        return this.endX-this.startX;
     }
 
     public void setLeftNode(Node leftNode) {
