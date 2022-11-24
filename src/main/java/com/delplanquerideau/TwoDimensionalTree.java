@@ -26,33 +26,51 @@ public class TwoDimensionalTree {
      */
     public TwoDimensionalTree(int largeur, int hauteur, int nbFeuilles, double proportionCoupe, int minDimensionCoupe, double memeCouleurProb, int largeurLigne, long seed){
         this.largeurLigne = largeurLigne;
-        this.racine = new Node(chooseDivision(hauteur, largeur, proportionCoupe), Color.WHITE, 0,largeur, 0, hauteur);
         this.leafs = new LinkedList();
-        this.leafs.add(this.racine); //Ajout de la racine aux feuilles
+        this.leafs.add(new Node(chooseDivision(hauteur, largeur, proportionCoupe), Color.WHITE, 0,largeur, 0, hauteur)); //Ajout de la racine aux feuilles
+        this.racine = leafs.getFirst().getNode();
         this.actualNbFeuilles++;
 
-        while(this.actualNbFeuilles < nbFeuilles){
-            Node leaf = chooseLeaf(minDimensionCoupe); //On cherche la feuille a diviser si elle existe sinon = null
-            //System.out.println(leaf.getID());
+        boolean isFinish = false;
+        Node leaf = null;
+
+        while(!isFinish){
+            leaf = chooseLeaf(minDimensionCoupe); //On cherche la feuille a diviser si elle existe sinon = null
 
             if(leaf != null) { //Si on a trouvé une feuille respecatant les conditions
-                System.out.println(this.leafs);
                 this.leafs.remove(leaf.getID()); //On retire le noeud des feuilles
 
                 CuttingDirection cut = chooseDivision(leaf.getHeight(), leaf.getWidth(), proportionCoupe); //On calcul une coupe pour les nouvelles feuilles
-                if(cut.getDirection().equals(Direction.X)){
-                    leaf.setLeftNode(new Node(cut, chooseColor(leaf, memeCouleurProb), leaf.getStartX(),leaf.getEndX(), leaf.getStartY(), cut.getPosition()));
-                    leaf.setRightNode(new Node(cut, chooseColor(leaf, memeCouleurProb), leaf.getStartX(),leaf.getEndX(), cut.getPosition(), leaf.getEndY()));
+                Node node1;
+                Node node2;
+
+                if(cut.getDirection() == Direction.X){
+                    node1 = new Node(cut, chooseColor(leaf, memeCouleurProb), leaf.getStartX(),leaf.getEndX(), leaf.getStartY(), cut.getPosition());
+                    node2 = new Node(cut, chooseColor(leaf, memeCouleurProb), leaf.getStartX(),leaf.getEndX(), cut.getPosition(), leaf.getEndY());
                 }else{
-                    leaf.setLeftNode(new Node(cut, chooseColor(leaf, memeCouleurProb), leaf.getStartX(),cut.getPosition(), leaf.getStartY(), leaf.getEndY()));
-                    leaf.setRightNode(new Node(cut, chooseColor(leaf, memeCouleurProb), cut.getPosition(),leaf.getEndX(), leaf.getStartY(), leaf.getEndY()));
+                    node1 = new Node(cut, chooseColor(leaf, memeCouleurProb), leaf.getStartX(),cut.getPosition(), leaf.getStartY(), leaf.getEndY());
+                    node2 = new Node(cut, chooseColor(leaf, memeCouleurProb), cut.getPosition(),leaf.getEndX(), leaf.getStartY(), leaf.getEndY());
                 }
+                leaf.setLeftNode(node1);
+                leaf.setRightNode(node2);
 
                 this.leafs.add(leaf.getLeftNode());
                 this.leafs.add(leaf.getRightNode());
                 this.actualNbFeuilles++; //On supprime 1 feuille pour en rajouter 2 donc +1
+
+                // System.out.println("Noeud gauche \n" + "Start x : " + leaf.getLeftNode().getStartX() + "\nEnd x : " + leaf.getLeftNode().getEndX()
+                //         + "\nStart y : " + leaf.getLeftNode().getStartY() + "\nEnd y : " + leaf.getLeftNode().getEndY()
+                //         + "\nCut Direction : " + leaf.getLeftNode().getCuttingDirection().getDirection()
+                //         + "\nCut Position : " + leaf.getLeftNode().getCuttingDirection().getPosition());
+                // System.out.println("Noeud droit \n" + "Start x : " + leaf.getRightNode().getStartX() + "\nEnd x : " + leaf.getRightNode().getEndX()
+                //         + "\nStart y : " + leaf.getRightNode().getStartY() + "\nEnd y : " + leaf.getRightNode().getEndY()
+                //         + "\nCut Direction : " + leaf.getRightNode().getCuttingDirection().getDirection()
+                //         + "\nCut Position : " + leaf.getRightNode().getCuttingDirection().getPosition());
             }else{
-                break;
+                isFinish = true;
+            }
+            if(this.actualNbFeuilles > nbFeuilles){
+                isFinish = true;
             }
         }
     }
@@ -66,15 +84,15 @@ public class TwoDimensionalTree {
         double bestWeight = -1;
         Node resItem = null;
 
-        do {
+        while(item != null) {
             if(item.getNode().weight() > bestWeight){
                 if((item.getNode().getHeight() > minDimensionCoupe) && (item.getNode().getWidth() > minDimensionCoupe)){
                     bestWeight = item.getNode().weight();
                     resItem = item.getNode();
                 }
             }
-        }while((item = item.getNext()) != null);
-
+            item = item.getNext();
+        }
 
         return resItem;
     }
@@ -139,9 +157,8 @@ public class TwoDimensionalTree {
         Image img = new Image(this.racine.getWidth(), this.racine.getHeight());
         img.setRectangle(this.racine.getStartX(), this.racine.getEndX(), this.racine.getStartY(), this.racine.getEndY(), this.racine.getColor()); // On dessine la racine (un tableau blanc)
 
-
         DrawLeaf(img, this.racine);
-        DrawNode(img, this.racine);
+        // DrawNode(img, this.racine);
 
         try {
             img.save("tableau.png");
