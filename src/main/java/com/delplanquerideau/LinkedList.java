@@ -24,35 +24,33 @@ public class LinkedList {
     public Node remove(int itemID){
         LinkedListItem previous = null;
         LinkedListItem item = this.first;
-        LinkedListItem next = item.getNext();
 
         do {
             if(item.getNode().getID() == itemID){
-                if(next == null && previous == null) { //Si c'est le seul élément
+                if(item.getNext() == null && previous == null) { //Si c'est le seul élément
                     this.first = null;
                     this.last = null;
                 }
 
-                if(next != null && previous == null){ //Si c'est le premier élément
-                    this.first = next;
+                if(item.getNext() != null && previous == null){ //Si c'est le premier élément
+                    this.first = item.getNext();
                 }
 
-                if(next == null && previous != null) { //Si c'est le dernier élément
+                if(item.getNext() == null && previous != null) { //Si c'est le dernier élément
                     previous.setNext(null);
                     this.last = previous;
                 }
 
-                if(next != null && previous != null) { //Si c'est un élément au milieu
-                    previous.setNext(next);
+                if(item.getNext() != null && previous != null) { //Si c'est un élément au milieu
+                    previous.setNext(item.getNext());
                 }
 
                 return item.getNode();
             }
 
             previous = item;
-            item = next;
-            next = next.getNext();
-        } while(next != null);
+            item = item.getNext();
+        } while(item != null);
         return null;
     }
 
