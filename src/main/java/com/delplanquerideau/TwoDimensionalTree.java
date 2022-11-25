@@ -157,8 +157,7 @@ public class TwoDimensionalTree {
         Image img = new Image(this.racine.getWidth(), this.racine.getHeight());
         img.setRectangle(this.racine.getStartX(), this.racine.getEndX(), this.racine.getStartY(), this.racine.getEndY(), this.racine.getColor()); // On dessine la racine (un tableau blanc)
 
-        DrawLeaf(img, this.racine);
-        // DrawNode(img, this.racine);
+        Draw(img, this.racine);
 
         try {
             img.save("tableau.png");
@@ -168,36 +167,24 @@ public class TwoDimensionalTree {
     }
 
     /**
-     * Dessine les lignes grises
+     * Dessine le tableau
      * @param img
      * @param node
      */
-    public void DrawNode(Image img, Node node){
-        if(!node.getIsALeaf()) { // Si le noeud n'est pas une feuille
-            int position = node.getCuttingDirection().getPosition();
-
-            if (node.getCuttingDirection().getDirection().equals(Direction.X)) {
-                img.setRectangle(node.getStartX(), node.getEndX(), position-(largeurLigne/2), position+(largeurLigne/2), Color.GRAY);
-            } else {
-                img.setRectangle(position-(largeurLigne/2), position+(largeurLigne/2), node.getStartY(), node.getEndY(), Color.GRAY);
-            }
-
-            DrawNode(img, node.getRightNode());
-            DrawNode(img, node.getLeftNode());
-        }
-    }
-
-    /**
-     * Dessine les rectangles de couleurs
-     * @param img
-     * @param node
-     */
-    public void DrawLeaf(Image img, Node node){
+    public void Draw(Image img, Node node){
         if(node.getIsALeaf()){ // Si le noeud est une feuille
-            img.setRectangle(node.getStartX(), node.getEndX(), node.getStartY(), node.getEndY(), node.getColor());
+            int demiLargeurLigne = (int)largeurLigne/2;
+
+            img.setRectangle(node.getStartX(), node.getEndX(), node.getStartY(), node.getEndY(), node.getColor()); //Couleur
+
+            img.setRectangle(node.getStartX(), node.getStartX()+demiLargeurLigne, node.getStartY(), node.getEndY(), Color.GRAY); //Ligne côté gauche
+            img.setRectangle(node.getStartX(), node.getEndX(), node.getStartY(), node.getStartY()+demiLargeurLigne, Color.GRAY); //Ligne du haut
+            img.setRectangle(node.getEndX()-demiLargeurLigne, node.getEndX(), node.getStartY(), node.getEndY(), Color.GRAY); //Ligne côté droit
+            img.setRectangle(node.getStartX(), node.getEndX(), node.getEndY()-demiLargeurLigne, node.getEndY(), Color.GRAY); //Ligne du bas
+
         }else{
-            DrawLeaf(img, node.getLeftNode());
-            DrawLeaf(img, node.getRightNode());
+            Draw(img, node.getLeftNode());
+            Draw(img, node.getRightNode());
         }
     }
 }
