@@ -21,6 +21,7 @@ public class Node {
     private Node leftNode;
     private Node rightNode;
     private boolean isALeaf = false;
+    private int AVLheight;
 
     private double weight;
 
@@ -54,24 +55,48 @@ public class Node {
         return this.cuttingDirection;
     }
 
+    public void setCuttingDirection(CuttingDirection cuttingDirection) {
+        this.cuttingDirection = cuttingDirection;
+    }
+
     public Color getColor(){
         return this.color;
+    }
+
+    public void setColor(Color color) {
+        this.color = color;
     }
 
     public int getStartX() {
         return this.startX;
     }
 
+    public void setStartX(int startX) {
+        this.startX = startX;
+    }
+
     public int getEndX() {
         return this.endX;
+    }
+
+    public void setEndX(int endX) {
+        this.endX = endX;
     }
 
     public int getStartY() {
         return this.startY;
     }
 
+    public void setStartY(int startY) {
+        this.startY = startY;
+    }
+
     public int getEndY() {
         return this.endY;
+    }
+
+    public void setEndY(int endY) {
+        this.endY = endY;
     }
 
     public Node getRightNode(){
@@ -116,5 +141,13 @@ public class Node {
         
         this.weight = (w*h)/(Math.pow((w+h), 1.5));
         return this.weight;
+    }
+
+    public void setAVLHeight(int AVLheight){
+        this.AVLheight = AVLheight;
+    }
+
+    public int getAVLHeight(){
+        return this.AVLheight;
     }
 }
