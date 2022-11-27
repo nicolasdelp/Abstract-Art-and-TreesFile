@@ -5,7 +5,11 @@ public class LinkedList {
     private LinkedListItem first;
     private LinkedListItem last;
 
-    public LinkedList(){}
+    public LinkedList(Node racine){
+        LinkedListItem item = new LinkedListItem(racine);
+        this.first = item;
+        this.last = item;
+    }
 
     public LinkedListItem getFirst() {
         return this.first;
@@ -15,44 +19,46 @@ public class LinkedList {
         LinkedListItem item = new LinkedListItem(node);
         if(this.first == null){
             this.first = item;
+            this.last = item;
         }else{
+            this.last.getNode().setIsALeaf(false);
             this.last.setNext(item);
         }
         this.last = item;
     }
 
-    public Node remove(int itemID){
-        LinkedListItem previous = null;
-        LinkedListItem item = this.first;
+    // public Node remove(int itemID){
+    //     LinkedListItem previous = null;
+    //     LinkedListItem item = this.first;
 
-        do {
-            if(item.getNode().getID() == itemID){
-                if(item.getNext() == null && previous == null) { //Si c'est le seul élément
-                    this.first = null;
-                    this.last = null;
-                }
+    //     do {
+    //         if(item.getNode().getID() == itemID){
+    //             if(item.getNext() == null && previous == null) { //Si c'est le seul élément
+    //                 this.first = null;
+    //                 this.last = null;
+    //             }
 
-                if(item.getNext() != null && previous == null){ //Si c'est le premier élément
-                    this.first = item.getNext();
-                }
+    //             if(item.getNext() != null && previous == null){ //Si c'est le premier élément
+    //                 this.first = item.getNext();
+    //             }
 
-                if(item.getNext() == null && previous != null) { //Si c'est le dernier élément
-                    previous.setNext(null);
-                    this.last = previous;
-                }
+    //             if(item.getNext() == null && previous != null) { //Si c'est le dernier élément
+    //                 previous.setNext(null);
+    //                 this.last = previous;
+    //             }
 
-                if(item.getNext() != null && previous != null) { //Si c'est un élément au milieu
-                    previous.setNext(item.getNext());
-                }
+    //             if(item.getNext() != null && previous != null) { //Si c'est un élément au milieu
+    //                 previous.setNext(item.getNext());
+    //             }
 
-                return item.getNode();
-            }
+    //             return item.getNode();
+    //         }
 
-            previous = item;
-            item = item.getNext();
-        } while(item != null);
-        return null;
-    }
+    //         previous = item;
+    //         item = item.getNext();
+    //     } while(item != null);
+    //     return null;
+    // }
 
     @Override
     public String toString() {

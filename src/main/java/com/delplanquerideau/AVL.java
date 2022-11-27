@@ -8,6 +8,14 @@ public class AVL {
         this.racine = n;
     }
 
+    public Node getRacine() {
+        return this.racine;
+    }
+
+    public void setRacine(Node racine) {
+        this.racine = racine;
+    }
+
     public int getNodeHeight(Node n){
         if(n == null){
             return -1;
@@ -67,77 +75,88 @@ public class AVL {
         return n;
     }
 
-    public Node insert(Node r, Node n){
-        double nodeWeight = n.weight();
-
-        if(r == null){
-            return r;
+    public Node insert(Node racine, Node n){
+        if(racine == null){
+            return racine;
         }
-        if(r.weight() > nodeWeight){
-            if(r.getLeftNode() != null){
-                r.setLeftNode(insert(r.getLeftNode(), n));
+
+        if(racine.weight() > n.weight()){
+            if(racine.getLeftNode() != null){
+                racine.setLeftNode(insert(racine.getLeftNode(), n));
             }else{
-                r.setLeftNode(n);
+                racine.setLeftNode(n);
             }
-        }else if(r.weight() > nodeWeight){
-            if(r.getRightNode() != null){
-                r.setRightNode(insert(r.getRightNode(), n));
+        }else if(racine.weight() < n.weight()){
+            if(racine.getRightNode() != null){
+                racine.setRightNode(insert(racine.getRightNode(), n));
             }else{
-                r.setRightNode(n);
-            }
-        }
-        return balance(r);
-    }
-
-    public Node delete(Node r, Node n){
-        double nodeWeight = n.weight();
-
-        if(r == null){
-            return r;
-        }
-        if(r.weight() > nodeWeight){
-            r.setLeftNode(delete(r.getLeftNode(), n));
-        }else if(r.weight() < nodeWeight){
-            r.setRightNode(delete(r.getRightNode(), n));
-        }else{ // Si c'est le noeud a supprimer
-            if(r.getLeftNode() == null){
-                r = r.getRightNode();
-            }else if(r.getRightNode() == null){
-                r = r.getLeftNode();
-            }else{
-                // On copie le noeud à la racine
-                Node minimum = getMin(r.getRightNode());
-                r.setCuttingDirection(minimum.getCuttingDirection());
-                r.setColor(minimum.getColor());
-                r.setStartX(minimum.getStartX());
-                r.setEndX(minimum.getEndX());
-                r.setStartY(minimum.getStartY());
-                r.setEndY(minimum.getEndX());
-
-                // On supprime le noeud qu'on vient de copier
-                r.setRightNode(delete(r.getRightNode(), minimum));
+                racine.setRightNode(n);
             }
         }
-        if(r != null){
-            r = balance(r);
-        }
-        return r;
+        return balance(racine);
     }
 
-    public Node getMax(Node n){
-        if(n.getRightNode() != null) {
-            return getMax(n.getRightNode()); // On veut le noeud le plus à droite de l'arbre
-        }else{
-            return n;
+    public Node delete(Node racine, Node n){
+        if(racine == null){
+            return racine;
         }
+
+        while(racine.getID() != n.getID()){
+            if(racine.weight() > n.weight()){
+                racine = racine.getLeftNode();
+            }else if(racine.weight() < n.weight()){
+                racine = racine.getRightNode();
+            }else{ // Si c'est le noeud a supprimer
+                if(racine.getLeftNode() == null){
+                    racine = racine.getRightNode();
+                }else if(racine.getRightNode() == null){
+                    racine = racine.getLeftNode();
+                }else{
+                    // On copie le noeud à la racine
+                    Node minimum = getMin(racine);
+                    racine.setCuttingDirection(minimum.getCuttingDirection());
+                    racine.setColor(minimum.getColor());
+                    racine.setStartX(minimum.getStartX());
+                    racine.setEndX(minimum.getEndX());
+                    racine.setStartY(minimum.getStartY());
+                    racine.setEndY(minimum.getEndX());
+
+                    // On supprime le noeud qu'on vient de copier
+                    racine.setRightNode(delete(racine, minimum));
+                }
+            }
+            if(racine != null){
+                racine = balance(racine);
+            }
+        }
+
+        return racine;
     }
 
-    public Node getMin(Node n){
-        if(n.getLeftNode() != null) {
-            return getMax(n.getLeftNode()); // On veut le noeud le plus à gauche de l'arbre
-        }else{
-            return n;
+    /**
+     * Donne le max à partir d'un noeud racine
+     * @param racine
+     * @return
+     */
+    public Node getMax(Node racine){
+        while(racine.getRightNode() != null){
+            racine = racine.getRightNode();
         }
+
+        return racine;
+    }
+
+    /**
+     * Donne le min à partir d'un noeud racine
+     * @param racine
+     * @return
+     */
+    public Node getMin(Node racine){
+        while(racine.getLeftNode() != null){
+            racine = racine.getLeftNode();
+        }
+
+        return racine;
     }
 
     

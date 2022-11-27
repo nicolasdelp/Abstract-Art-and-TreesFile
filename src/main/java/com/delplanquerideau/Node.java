@@ -129,6 +129,10 @@ public class Node {
         return this.isALeaf;
     }
 
+    public void setIsALeaf(boolean isALeaf) {
+        this.isALeaf = isALeaf;
+    }
+
     /**
      * Calcul le poids d'une feuille
      * @param w la largeur
