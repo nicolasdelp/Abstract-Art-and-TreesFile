@@ -1,226 +1,273 @@
 package com.delplanquerideau;
 
+/**
+ * Class représentant un AVL
+ */
 public class AVL {
 
-    private Node racine;
+    private Node root;
+	private int size = 0;
 
-    public AVL(Node n){
-        this.racine = n;
+    public AVL(Node root){
+        this.root = root;
+        this.size++;
     }
 
-    public Node getRacine() {
-        return this.racine;
+	public int getSize(){
+		return this.size;
+	}
+
+    public Node getRoot() {
+        return this.root;
     }
 
-    public void setRacine(Node racine) {
-        this.racine = racine;
-    }
-
-    public int getNodeHeight(Node n){
-        if(n == null){
-            return -1;
-        }
-        return n.getAVLHeight();
-    }
-
-    public void updateNodeHeight(Node n){
-        n.setAVLHeight(Math.max(getNodeHeight(n.getLeftNode()), getNodeHeight(n.getRightNode())) + 1); //On prend le max des deux sous-arbres et on ajoute 1
-    }
-
-    public int getNodeBalance(Node n){
-        if(n == null){
-            return 0;
-        }
-        return getNodeHeight(n.getRightNode()) - getNodeHeight(n.getLeftNode()); // Différence entre la hauteur des deux sous-arbres
-    }
-
-    public Node rightRotation(Node n){
-        Node a = n.getLeftNode();
-        Node b = a.getRightNode();
-        a.setRightNode(n);
-        n.setLeftNode(b);
-        updateNodeHeight(n);
-        updateNodeHeight(a);
-        return a;
-    }
-
-    public Node leftRotation(Node n){
-        Node a = n.getRightNode();
-        Node b = a.getLeftNode();
-        a.setLeftNode(n);
-        n.setRightNode(b);
-        updateNodeHeight(n);
-        updateNodeHeight(a);
-        return a;
-    }
-
-    public Node balance(Node n){
-        updateNodeHeight(n);
-
-        if(getNodeBalance(n) > 1){
-            if(getNodeHeight(n.getRightNode().getRightNode()) > getNodeHeight(n.getRightNode().getLeftNode())){
-                n = leftRotation(n);
-            }else {
-                n.setRightNode(rightRotation(n.getRightNode()));
-                n = leftRotation(n);
-            }
-        }else if(getNodeBalance(n) < -1){
-            if(getNodeHeight(n.getLeftNode().getLeftNode()) > getNodeHeight(n.getLeftNode().getRightNode())){
-                n = rightRotation(n);
-            }else {
-                n.setLeftNode(leftRotation(n.getLeftNode()));
-                n = rightRotation(n);
-            }
-        }
-        return n;
-    }
-
-    public Node insert(Node racine, Node n){
-        if(racine == null){
-            return racine;
-        }
-
-        if(racine.weight() > n.weight()){
-            if(racine.getLeftNode() != null){
-                racine.setLeftNode(insert(racine.getLeftNode(), n));
-            }else{
-                racine.setLeftNode(n);
-            }
-        }else if(racine.weight() < n.weight()){
-            if(racine.getRightNode() != null){
-                racine.setRightNode(insert(racine.getRightNode(), n));
-            }else{
-                racine.setRightNode(n);
-            }
-        }
-        return balance(racine);
-    }
-
-    public Node delete(Node racine, Node n){
-        if(racine == null){
-            return racine;
-        }
-
-        while(racine.getID() != n.getID()){
-            if(racine.weight() > n.weight()){
-                racine = racine.getLeftNode();
-            }else if(racine.weight() < n.weight()){
-                racine = racine.getRightNode();
-            }else{ // Si c'est le noeud a supprimer
-                if(racine.getLeftNode() == null){
-                    racine = racine.getRightNode();
-                }else if(racine.getRightNode() == null){
-                    racine = racine.getLeftNode();
-                }else{
-                    // On copie le noeud à la racine
-                    Node minimum = getMin(racine);
-                    racine.setCuttingDirection(minimum.getCuttingDirection());
-                    racine.setColor(minimum.getColor());
-                    racine.setStartX(minimum.getStartX());
-                    racine.setEndX(minimum.getEndX());
-                    racine.setStartY(minimum.getStartY());
-                    racine.setEndY(minimum.getEndX());
-
-                    // On supprime le noeud qu'on vient de copier
-                    racine.setRightNode(delete(racine, minimum));
-                }
-            }
-            if(racine != null){
-                racine = balance(racine);
-            }
-        }
-
-        return racine;
+    public void setRoot(Node root) {
+        this.root = root;
     }
 
     /**
-     * Donne le max à partir d'un noeud racine
-     * @param racine
-     * @return
+     * Indique si l'AVL est vide ou non
+     * @return true ou false
      */
-    public Node getMax(Node racine){
-        while(racine.getRightNode() != null){
-            racine = racine.getRightNode();
-        }
+	public boolean isEmpty(){
+		return this.root == null;
+	}
 
-        return racine;
+    /**
+     * Donne la hauteur d'un noeud
+     * @param node Un noeud
+     * @return la hauteur du noeud
+     */
+    public int getNodeHeight(Node node){
+        return node == null ? -1 : node.getAVLHeight();
     }
 
     /**
-     * Donne le min à partir d'un noeud racine
-     * @param racine
-     * @return
+     * Met à jour la hauteur d'un noeud
+     * @param node Un noeud
      */
-    public Node getMin(Node racine){
-        while(racine.getLeftNode() != null){
-            racine = racine.getLeftNode();
+    public void updateNodeHeight(Node node){
+        node.setAVLHeight(1 + Math.max(getNodeHeight(node.getAVLLeft()), getNodeHeight(node.getAVLRight())));
+    }
+
+    /**
+     * Donne la balance d'un noeud
+     * @param node Un noeud
+     * @return la balance du noeud
+     */
+    public int getNodeBalance(Node node){
+        return (node == null) ? 0 : getNodeHeight(node.getAVLRight()) - getNodeHeight(node.getAVLLeft());
+    }
+
+    /**
+     * Effectue une rotation à droite d'un AVL
+     * @param node Le noeud racine
+     * @return la racine après la rotation
+     */
+    public Node rightRotation(Node node){
+        Node a = node.getAVLLeft();
+        Node b = a.getAVLRight();
+
+        a.setAVLRight(node);
+        node.setAVLLeft(b);
+        updateNodeHeight(node);
+        updateNodeHeight(a);
+
+        return a;
+    }
+
+    /**
+     * Effectue une rotation à gauche d'un AVL
+     * @param node Le noeud racine
+     * @return la racine après la rotation
+     */
+    public Node leftRotation(Node node){
+        Node a = node.getAVLRight();
+        Node b = a.getAVLLeft();
+
+        a.setAVLLeft(node);
+        node.setAVLRight(b);
+        updateNodeHeight(node);
+        updateNodeHeight(a);
+
+        return a;
+    }
+
+    /**
+     * Rééquilibre un AVL
+     * @param node Le noeud racine
+     * @return un AVL équilibré
+     */
+    public Node balance(Node node){
+
+        updateNodeHeight(node);
+
+        if(getNodeBalance(node) > 1){
+            if(getNodeHeight(node.getAVLRight().getAVLRight()) > getNodeHeight(node.getAVLRight().getAVLLeft())){
+                node = leftRotation(node);
+            }else {
+                node.setAVLRight(rightRotation(node.getAVLRight()));
+                node = leftRotation(node);
+            }
+        }else if(getNodeBalance(node) < -1){
+            if(getNodeHeight(node.getAVLLeft().getAVLLeft()) > getNodeHeight(node.getAVLLeft().getAVLRight())){
+                node = rightRotation(node);
+            }else {
+                node.setAVLLeft(leftRotation(node.getAVLLeft()));
+                node = rightRotation(node);
+            }
+        }
+        return node;
+    }
+
+    /**
+     * Insertion d'un noeud dans l'AVL
+     * @param n Le noeud a inserer
+     * @return La nouvelle root de l'AVL
+     */
+	public void insert(Node node){
+		this.size++;
+		setRoot(insertRec(root, node));	//old root may be updated with rotations
+	}
+
+    /**
+     * Insertion recursive
+     * @param parent Le noeud courant
+     * @param node Le noeud a inserer
+     * @return la nouvelle root de l'AVL
+     */
+	private Node insertRec(Node parent, Node node){
+        if(parent == null){
+            return node;
+        }else if(parent.getWeight() >= node.getWeight()){
+            parent.setAVLLeft(insertRec(parent.getAVLLeft(), node));
+        }else if(parent.getWeight() < node.getWeight()){
+            parent.setAVLRight(insertRec(parent.getAVLRight(), node));
         }
 
-        return racine;
+        return balance(parent);
     }
+
+
+
+
+	/**
+     * Supprime un noeud de l'AVL
+     * @param node Le noeud a supprimer
+     */
+	public void remove(Node node){
+		size--;
+		setRoot(removeRec(root, node));
+	}
 
     
+	public Node removeRec(Node parent, Node node){
+        if(parent == null){
+            return parent;
+        }else if(parent.getWeight() > node.getWeight()){
+                parent.setAVLLeft(removeRec(parent.getAVLLeft(), node));
+        }else if(parent.getWeight() < node.getWeight()){
+                parent.setAVLRight(removeRec(parent.getAVLRight(), node));
+        }else{ // Si c'est le noeud a supprimer
+            if(parent.getAVLLeft() == null || parent.getAVLRight() == null){
+                parent = (parent.getAVLLeft() == null) ? parent.getAVLRight() : parent.getAVLLeft();
+            }else{
+                Node minimum = getMinRec(parent.getAVLRight()); //On prend le minimum à droite
 
-    // public String preorder(Node n, String s){
-    //     s = s + n.toString();
-    //     if(!n.getIsALeaf()){
-    //         s = s + "(" + preorder(n.getLeftNode(), s) + ")";
-    //         s = s + "(" + preorder(n.getRightNode(), s) + ")";
-    //     }
-    //     return s;
-    // }
+                // On copie le noeud à la racine
+                parent.setWeight(minimum.getWeight());
+                parent.setCut(minimum.getCuttingDirection());
+                parent.setColor(minimum.getColor());
+                parent.setStartX(minimum.getStartX());
+                parent.setEndX(minimum.getEndX());
+                parent.setStartY(minimum.getStartY());
+                parent.setEndY(minimum.getEndY());
+                parent.setID(minimum.getID());
 
-    // public Node insert(Node n) {
+                // On supprime le noeud qu'on vient de copier
+                parent.setAVLRight(removeRec(parent.getAVLRight(), minimum));
+            }
+        }
 
+        if(parent != null){
+            parent = balance(parent);
+        }
 
-    //     public Node insert_rec (Node curr, Node toAdd){
-    //         if (curr == null) {
-    //             return toAdd;    //we get the existing node (from the Kd Tree)
-    //         } else if (toAdd.getWeight() <= curr.getWeight()) {    //if equal, insert node as child, choice for next division is left to fate
-    //             curr.setLeftNode(insert_rec(curr.getLeftNode(), toAdd));
-    //         } else {
-    //             curr.setRightNode(insert_rec(curr.getRightNode(), toAdd));
-    //         }
+        return parent;
+    }
 
-    //         updateHeight(n);
-    //         rotate(n);
-    //         return Node;
+	
+    /**
+     * Donne le maximum de l'AVL
+     * @return le noeud maximum de l'AVL
+     */
+	public Node getMax(){
+		return getMaxRec(root);
+	}
 
+	/**
+     * Donne le maximum à partir d'un noeud racine
+     * @param node Un noeud racine
+     * @return le noeud maximum
+     */
+    private Node getMaxRec(Node node){
+        while(node.getAVLRight() != null){
+            node = node.getAVLRight();
+        }
 
-    //         // //override
-    //         // public Node delete(Node toDel){
-    //         // 	delete_rec(curr, root);
-    //         // }
+        return node;
+    }
+    
+    /**
+     * Donne le minimum de l'AVL
+     * @return le noeud minimum de l'AVL
+     */
+	public Node getMin(){
+		return getMinRec(root);
+	}
 
-    //         // public Node delete_rec(Node curr, Node toDel){	//find method is useless, delete wants to have the parents of the node to delete
-    //         // 	if(n==null) return null;
-    //         // 	else if(toAdd.getWeight() < curr.getWeight()){	//if equal, delete ? how to know which to delete? is deletion necessary here?
-    //         // 		curr.setLeftNode(delete_rec(curr.getLeftNode(), toAdd));
-    //         // 	}
-    //         // 	else{
-    //         // 		curr.setRightNode(delete_rec(curr.getRightNode(), toAdd)) ;
-    //         // 	}
+	/**
+     * Donne le minimum à partir d'un noeud racine
+     * @param node Un noeud racine
+     * @return le noeud minimum
+     */
+    private Node getMinRec(Node node){
+        while(node.getAVLLeft() != null){
+            node = node.getAVLLeft();
+        }
 
-    //         // }
+        return node;
+    }
 
+	/**
+     * Parcours preordre à partir d'un noeud racine
+     * @param node Un noeud racine
+     * @return un String
+     */
+    public String preorder(Node node){
+		if(node==null) return "";
 
-    //         public Node getMax () {
-    //             Node n = root;
-    //             while (!n.isLeaf) {
-    //                 n = n.getRightNode;
-    //             }
-    //             return n;
-    //         }
+		String s = node.getID() + "";
 
-    //         public Node getMin () {
-    //             Node n = root;
-    //             while (!n.isLeaf) {
-    //                 n = n.getLeftNode;
-    //             }
-    //             return n;
-    //         }
-    //     }
+        if(node.getAVLLeft() != null){
+		    s += " ( L-" + preorder(node.getAVLLeft()) + " ) ";
+        }else{
+            s += " ( L-null ) ";
+        }
+        if(node.getAVLRight() != null){
+		    s += " ( R-" + preorder(node.getAVLRight()) + " ) ";
+        }else{
+            s += " ( R-null ) ";
+        }
+    	
+        return s;
+    }
 
-    //     insert_rec(root, n);
-    // }
+    /**
+     * Représentation d'un AVL sous forme de texte
+     */
+    @Override
+	public String toString(){
+		return preorder(root);
+	}
 }

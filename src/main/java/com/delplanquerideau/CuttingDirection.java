@@ -1,17 +1,12 @@
 package com.delplanquerideau;
 
 /**
- * Class représentant la direction et la position de la coupe
+ * Class représentant la direction et la position d'une coupe
  */
 public class CuttingDirection{
-    private Direction direction; //Axe de coupe
-    private int position; //Position de coupe
+    private Direction direction;
+    private int position;
 
-    /**
-     * Constructeur d'une coupe
-     * @param direction
-     * @param position
-     */
     public CuttingDirection(Direction direction, int position){
         this.direction = direction;
         this.position = position;
@@ -24,4 +19,15 @@ public class CuttingDirection{
     public int getPosition() {
         return this.position;
     }
+
+	public String toString(){
+		return direction + " " + position;
+	}
+
+	public boolean isX(){
+		return (direction == Direction.X);
+	}
+	public boolean isY(){
+		return (direction == Direction.Y);
+	}
 }

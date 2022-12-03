@@ -3,10 +3,8 @@ package com.delplanquerideau;
 import java.awt.*;
 
 /**
- * Class représentant un noeud dans un 2d-arbres
+ * Class représentant un noeud
  */
-
-
 public class Node {
 
     private static int ID = 1;
@@ -14,48 +12,53 @@ public class Node {
     private int nodeID;
     private CuttingDirection cuttingDirection;
     private Color color;
+
     private int startX;
     private int endX;
     private int startY;
     private int endY;
+
     private Node leftNode;
     private Node rightNode;
-    private boolean isALeaf = false;
-    private int AVLheight;
 
+    private int AVLheight;
+	public Node AVLLeft;
+	public Node AVLRight;
+
+	private int height;
+	private int width;
     private double weight;
 
-    /**
-     * Constructeur d'un noeud dans un arbre
-     * @param cuttingDirection direction de coupe
-     * @param color couleur du noeud
-     * @param startX pixel de départ en X
-     * @param endX pixel de fin en X
-     * @param startY pixel de départ en Y
-     * @param endY pixel de fin en Y
-     * @param leftNode noeud enfant à gauche
-     * @param rightNode noeud enfant à droite
-     */
-    public Node(CuttingDirection cuttingDirection, Color color, int startX, int endX, int startY, int endY){
+    public Node(Color color, int startX, int endX, int startY, int endY){
         this.nodeID = ID++;
-        this.cuttingDirection = cuttingDirection;
         this.color = color;
+		if(startX == Double.NaN || endX == Double.NaN || startY == Double.NaN || endY == Double.NaN ) throw new Error("NaN");
+		if(startX >= endX) throw new Error("Negative width");	//include Nan case
         this.startX = startX;
         this.endX = endX;
+		if(startY >= endY) throw new Error("Negative height");	//include Nan case
         this.startY = startY;
         this.endY = endY;
-        this.isALeaf = true;
+
+		this.AVLLeft = null;
+		this.AVLRight = null;
+		this.weight = calculateWeight();
+		if (Double.isNaN(weight)) throw new Error("error : void surface");
     }
 
     public int getID() {
         return this.nodeID;
     }
 
+    public void setID(int id) {
+        this.nodeID = id;
+    }
+
     public CuttingDirection getCuttingDirection(){
         return this.cuttingDirection;
     }
 
-    public void setCuttingDirection(CuttingDirection cuttingDirection) {
+    public void setCut(CuttingDirection cuttingDirection) {
         this.cuttingDirection = cuttingDirection;
     }
 
@@ -103,43 +106,75 @@ public class Node {
         return this.rightNode;
     }
 
+    public void setRightNode(Node rightNode) {
+        this.rightNode = rightNode;
+    }
+
     public Node getLeftNode(){
         return this.leftNode;
     }
 
-    public int getHeight(){
-        return this.endY-this.startY;
-    }
-
-    public int getWidth(){
-        return this.endX-this.startX;
-    }
-
     public void setLeftNode(Node leftNode) {
         this.leftNode = leftNode;
-        this.isALeaf = false;
     }
 
-    public void setRightNode(Node rightNode) {
-        this.rightNode = rightNode;
-        this.isALeaf = false;
+    public int getAVLHeight(){
+        return this.AVLheight;
     }
 
-    public boolean getIsALeaf(){
-        return this.isALeaf;
+    public void setAVLHeight(int AVLheight){
+        this.AVLheight = AVLheight;
     }
 
-    public void setIsALeaf(boolean isALeaf) {
-        this.isALeaf = isALeaf;
+	public Node getAVLLeft() {
+		return AVLLeft;
+	}
+
+	public void setAVLLeft(Node AVLLeft) {
+		this.AVLLeft = AVLLeft;
+	}
+
+	public Node getAVLRight() {
+		return AVLRight;
+	}
+
+	public void setAVLRight(Node AVLRight) {
+		this.AVLRight = AVLRight;
+	}
+
+    /**
+     * Donne la hauteur du rectangle
+     * @return la hauteur du rectangle
+     */
+    public int height(){
+		height = this.endY-this.startY;
+        return height;
     }
 
     /**
-     * Calcul le poids d'une feuille
+     * Donne la largeur du rectangle
+     * @return la largeur du rectangle
+     */
+    public int width(){
+    	width = this.endX-this.startX;
+		return width;
+    }
+    
+    /**
+     * Calcul le poids du noeud
      * @param w la largeur
      * @param h la hauteur
-     * @return le poids (double)
+     * @return le poids du noeud
      */
-    public double weight(){
+    public double getWeight(){
+        return this.weight;
+    }
+
+	public void setWeight(double weight){	//used to differentiate equal weights
+        this.weight = weight;
+    }
+
+	private double calculateWeight(){
         int w = this.endX - this.startX;
         int h = this.endY - this.startY;
         
@@ -147,11 +182,22 @@ public class Node {
         return this.weight;
     }
 
-    public void setAVLHeight(int AVLheight){
-        this.AVLheight = AVLheight;
-    }
+	public boolean isLeaf(){
+		return (leftNode ==null) && (rightNode==null);
+	}
 
-    public int getAVLHeight(){
-        return this.AVLheight;
-    }
+    /**
+     * Représentation un noeud sous forme de texte
+     */
+    // @Override
+	public String toString(){
+		return "(ID : " + this.nodeID + ", H : " + height() + ", L : " + width() + ", Poids : " + Math.floor((weight*100)) + ") ";
+	}
+
+    /**
+     * Représentation un noeud sous forme de texte numero 2
+     */
+	public String toStringAVL(){
+		return "@" + this.nodeID + "/" + Math.round((weight*100)) + "/" + AVLheight + "/" + this.startX + "/" + this.endX + "/" + this.startY + "/" + this.endY;
+	}
 }
